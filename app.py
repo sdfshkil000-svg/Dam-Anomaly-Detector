@@ -175,7 +175,7 @@ def detect_anomaly(history, current):
 
 
 def gemini_explanation(current, result, history_stats):
-    """Ask Gemini 2.5 Flash to explain the statistical screening result."""
+    """Ask Gemini 3.6 Flash to explain the statistical screening result."""
     api_key = st.secrets.get(
         "GEMINI_API_KEY",
         os.getenv("GEMINI_API_KEY", ""),
@@ -230,7 +230,7 @@ Isolation Forest flag: {result['iso_label'] == -1}
 
     try:
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-3.6-flash",
             contents=prompt,
         )
         return response.text or "Gemini returned no explanation."
@@ -373,7 +373,7 @@ if st.button(
     history_stats = history[PARAMETERS].agg(["mean", "std"])
 
     with st.spinner(
-        "Gemini 2.5 Flash is interpreting the screening result..."
+        "Gemini 3.6 Flash is interpreting the screening result..."
     ):
         st.write(
             gemini_explanation(
@@ -394,7 +394,7 @@ with st.expander("About the detector"):
     st.write(
         "The app compares the five current measurements with historical "
         "behavior using standardized deviations and an Isolation Forest. "
-        "Gemini 2.5 Flash then explains the statistical result. For "
+        "Gemini 3.6 Flash then explains the statistical result. For "
         "production use, calibrate thresholds and models using validated "
         "dam-specific data."
     )
